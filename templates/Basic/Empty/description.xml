@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../description.xsl"?>
+<Overview version="1.0">
+  <SampleName>Empty Project</SampleName>
+  <SampleVersion>1.0</SampleVersion>
+   <PlatformList>
+     <Profile>
+        <ProfileName>tv-samsung-public</ProfileName>
+        <RequiredVersion>2.3</RequiredVersion>
+     </Profile>
+  </PlatformList>
+   <ProjectType>TIZEN</ProjectType>
+  <HasOption>False</HasOption>
+  <CategoryList>
+       <Category>General</Category>
+  </CategoryList>
+  <PreviewList>
+       <Preview>empty.png</Preview>
+  </PreviewList>
+  <Description>
+    An empty project.
+  </Description>
+</Overview>
