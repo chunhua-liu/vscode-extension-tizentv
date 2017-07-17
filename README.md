@@ -10,9 +10,9 @@
 <h4 align="center">Generate/Edit/Package/Run/Debug your applications with Tizen Targets</h4>
 
 <p align="center">
-  <a href="https://github.com/samsung/vscode-extension-tizentv"><img src="https://raw.githubusercontent.com/samsung/vscode-extension-tizentv/master/images/buildpassing.svg?branch=master" alt="Source"></a>
-  <a href="https://github.com/samsung/vscode-extension-tizentv/releases"><img src="https://raw.githubusercontent.com/samsung/vscode-extension-tizentv/master/images/release.svg?branch=master" alt="Release"></a>
-  <a href="https://github.com/samsung/vscode-extension-tizentv/wiki"><img src="https://raw.githubusercontent.com/samsung/vscode-extension-tizentv/master/images/chatter.svg?branch=master" alt="Wiki"></a>
+  <a href="https://github.com/samsung/vscode-extension-tizentv"><img src="https://raw.githubusercontent.com/samsung/vscode-extension-tizentv/master/images/buildpassing.png?branch=master" alt="Source"></a>
+  <a href="https://github.com/samsung/vscode-extension-tizentv/releases"><img src="https://raw.githubusercontent.com/samsung/vscode-extension-tizentv/master/images/release.png?branch=master" alt="Release"></a>
+  <a href="https://github.com/samsung/vscode-extension-tizentv/wiki"><img src="https://raw.githubusercontent.com/samsung/vscode-extension-tizentv/master/images/chatter.png?branch=master" alt="Wiki"></a>
 </p>
 
 'TizenTV' is a VS Code extension that provides a lightweight IDE for Tizen application developers, helps to generate, update and package an application, also run and debug an application on Tizen targets.
@@ -78,7 +78,7 @@ If the launch.json is not yet configured, please configure the launching item
   Set the TV Simulator's location for debug on TV simulator  
 * targetIp  
   Set the target TV's IP for debug on TV  
-<p><img src="https://raw.githubusercontent.com/samsung/vscode-extension-tizentv/images/debugsetting.png" alt="debug setting"></p>
+<p><img src="https://raw.githubusercontent.com/samsung/vscode-extension-tizentv/master/images/debugsetting.png" alt="debug setting"></p>
 
 
 ## F.A.Q
