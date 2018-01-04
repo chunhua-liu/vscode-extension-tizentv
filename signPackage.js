@@ -140,6 +140,8 @@ function createReferences(target){
 	for(var i = 0;i < files.length; i++) {
 		if(files[i] == 'signature1.xml')
 			continue;	
+		if(files[i].indexOf(".") == 0)
+			continue;	
 		var fullname = path.join(workspacePath, files[i]);
 		var stats = fs.statSync(fullname);
 		if (stats.isDirectory()){
