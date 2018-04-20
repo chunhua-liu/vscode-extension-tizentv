@@ -339,9 +339,9 @@
 				"configurationSnippets": [
 					{
 						"label": "Tizen 3.0/4.0(Emulator): Launch",
-						"description": "Debug the application in workspace on Tizen 3.0(Emulator).",
+						"description": "Debug the application in workspace on Tizen 3.0/4.0(Emulator).",
 						"body": {
-							"name": "Tizen 3.0(Emulator)",
+							"name": "Tizen 3.0/4.0(Emulator)",
 							"type": "emulator",
 							"request": "launch",
 							"file": "^\"\\${workspaceRoot}/index.html\"",
