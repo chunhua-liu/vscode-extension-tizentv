@@ -36,7 +36,7 @@
   Open SDB in shell to help execute the SDB commands you want  
 * Tizen TV: Web Inspector on Emulator & Tizen TV: Web Inspector on TV  
   Use google-chrome to debug with web inspector, please configure the chrome executable's path in user setting   
-* Tizen TV: Set Exception Path
+* Tizen TV: Set Exception Path  
   Set Exception Path for package   
 * Debugger: Tizen 3.0/4.0(TV)  
   Add breakpoints in application and debug source code on Tizen TV  
