@@ -29,6 +29,9 @@ var buildPackage = (function() {
 	var moduleName = 'Build Package';
 	var workspacePath = '';
 
+	var expconfname = 'buildExceptionPath.conf';
+	var explist = '';
+
 
 	// Remove exsiting files
 	function removeFile(filepath){
@@ -75,7 +78,8 @@ var buildPackage = (function() {
 
 			logger.info(moduleName, 'Signing app, please wait...');
 			//signPackage.signPackage();
-			signPackage.signPackage(workspacePath);
+
+			signPackage.signPackage(workspacePath,explist);
 			logger.info(moduleName, 'Completed sign...');
 		} catch (ex) {
 
@@ -87,10 +91,43 @@ var buildPackage = (function() {
 
 		return true;
 	};
+	var getZipFileDir = function(pathinput,archive){
+		var filepath =workspacePath+path.sep+pathinput;
+		var files = fs.readdirSync(filepath);
+		//fs.writeFileSync(workspacePath + path.sep + "../createReferences.txt", files);
+		// It does noy support forEach
+		for(var i = files.length -1;i >= 0; i--) {
+			if(files[i].indexOf('.') == 0){//startWith is not support in the file, indexOf == 0 is equal to startWith 
+				//files.splice(i,1);
+				continue;
+			}
+			var fullname = filepath+ files[i];
+			//var outname = fullname;
+			//outname.replace(workspacePath,"");
+			var stats = fs.statSync(fullname);
+			if (stats.isDirectory()){
+				fullname += path.sep;
+				if(explist.indexOf(';'+fullname)>=0){
+					if(explist.indexOf(';'+fullname+';')>=0)
+					{
+						continue;
+					}
+					getZipFileDir(pathinput+files[i]+path.sep,archive);
+				}
+				else
+				{
+					archive.directory(fullname,pathinput+files[i]);
+				}
 
-	// Do build package with 'archiver'
-	var doPackage = function(workspacePath, appName) {
+			}else if(stats.isFile()){
+				if(explist.indexOf(';'+fullname+';')<0)
+					archive.file(fullname,{name:pathinput+files[i]});
+			}
+		}
 
+	};
+
+	var doPackageExp = function(workspacePath, appName) {
 		// Get Web App .wgt file default output path
 		var outputFullPathTmp = workspacePath + outputPath + appName + '.wgt';
 		var outputFullPath = workspacePath + path.sep + appName + '.wgt';
@@ -123,7 +160,102 @@ var buildPackage = (function() {
 			if (fs.existsSync(tmpFile)) {
 				fs.unlinkSync(tmpFile);
 			}
-			fs.rename(outputFullPathTmp, outputFullPath);
+			fs.renameSync(outputFullPathTmp, outputFullPath);
+			logger.info(moduleName, 'After build package, signature tempory files were removed');
+			logger.info(moduleName, '==============================Build Package end!');
+		});
+
+		archive.pipe(output);
+		var files = fs.readdirSync(workspacePath);
+	
+		// It does not support "forEach", it can use "for"
+		//Filter the file which the first word of name is "."
+		for(var i = files.length -1;i >= 0; i--) {
+			if(files[i].indexOf('.') == 0){//startWith is not support in the file, indexOf == 0 is equal to startWith 
+				//files.splice(i,1);
+				continue;
+			}
+			if(files[i] == expconfname)
+				continue;	
+			var fullname = path.join(workspacePath, files[i]);
+			var stats = fs.statSync(fullname);
+			if (stats.isDirectory()){
+				fullname += path.sep;
+				//var subfilepath = path.join(workspacePath, files[i]);
+				if(explist.indexOf(';'+fullname)>=0){
+					if(explist.indexOf(';'+fullname+';')>=0)
+					{
+						continue;
+					}
+					getZipFileDir(files[i]+path.sep,archive);
+				}
+				else
+				{
+					archive.directory(fullname,files[i]);
+				}
+			}else if(stats.isFile()){
+				if(explist.indexOf(';'+fullname+';')<0)
+					archive.file(fullname,{name:files[i]});
+			}
+		}
+			
+		archive.finalize();
+
+		// Move .wgt file to App path
+		logger.info(moduleName, "Exception path:"+explist);
+		
+		logger.info(moduleName, 'Move .wgt from tempory path');
+
+		// Complete the package build
+		//while (!fs.existsSync(outputFullPath)) {
+			//common.sleepMs(500);
+		//}
+		logger.info(moduleName, 'Generated the .wgt achiver');
+		var buildSuccessMsg = 'Build the package Successfully!';
+		common.showMsgOnWindow(common.ENUM_WINMSG_LEVEL.INFO, buildSuccessMsg);
+		logger.info(moduleName, buildSuccessMsg);
+	};
+	// Do build package with 'archiver'
+	var doPackage = function(workspacePath, appName) {
+
+		if(explist.length > 0)
+		{
+			doPackageExp(workspacePath, appName);
+			return;
+		}
+		// Get Web App .wgt file default output path
+		var outputFullPathTmp = workspacePath + outputPath + appName + '.wgt';
+		var outputFullPath = workspacePath + path.sep + appName + '.wgt';
+		logger.debug(moduleName, 'Output put has been set as: ' + outputFullPath);
+
+		var output = fs.createWriteStream(outputFullPathTmp);
+		var archive = archiver('zip');
+
+		archive.on('error', function (err) {
+			logger.debug(moduleName, err.message);
+			throw err;
+		});
+
+		output.on('close', function () {
+
+			// Remove tempory signature files
+			var authorSignature = workspacePath + path.sep + AUTOR_SIGNATURE;
+			var publicSignature = workspacePath + path.sep + PUBLIC_SIGNATURE;
+			var publicSignature2 = workspacePath + path.sep + PUBLIC_SIGNATURE2;
+			var tmpFile = workspacePath + path.sep + MAINFEST_TMP;
+			if (fs.existsSync(authorSignature)) {
+				fs.unlinkSync(authorSignature);
+			}
+			if (fs.existsSync(publicSignature)) {
+				fs.unlinkSync(publicSignature);
+			}
+			if (fs.existsSync(publicSignature2)) {
+				fs.unlinkSync(publicSignature2);
+			}
+			if (fs.existsSync(tmpFile)) {
+				fs.unlinkSync(tmpFile);
+			}
+			fs.renameSync(outputFullPathTmp, outputFullPath);
 			logger.info(moduleName, 'After build package, signature tempory files were removed');
 			logger.info(moduleName, '==============================Build Package end!');
 		});
@@ -153,6 +285,15 @@ var buildPackage = (function() {
 		logger.info(moduleName, buildSuccessMsg);
 	};
 
+	var checkExpFile = function(workspacePath, appName) {
+		explist = '';
+		var expfile = workspacePath+path.sep+ expconfname;
+		if(fs.existsSync(expfile))
+		{
+			explist = fs.readFileSync(expfile, 'utf8');;
+		}
+	};
+
 
 	return {
 		// Do 'Build Package' command
@@ -160,6 +301,7 @@ var buildPackage = (function() {
 		handleCommand:function() {
 
 			logger.info(moduleName, '==============================Build Package start!');
+
 
 			//var workspacePath = common.getWorkspacePath();
 			if (common.getFuncMode() != common.ENUM_COMMAND_MODE.DEBUGGER && common.getFuncMode() != common.ENUM_COMMAND_MODE.DEBUGGER_TIZEN3_0_EMULATOR) {
@@ -189,6 +331,8 @@ var buildPackage = (function() {
 				common.showMsgOnWindow(common.ENUM_WINMSG_LEVEL.WARNING, warning_path);
 				return;
 			}
+			//check if there is exception file
+			checkExpFile(workspacePath, appName);
 
 			if (workspacePath && prePackage(workspacePath, appName)) {
 

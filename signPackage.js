@@ -26,6 +26,9 @@ var moduleName = 'signPackage';
 var workspacePath = common.getWorkspacePath();
 var digestURI = [];
 
+var explist = '';
+
+
 
 /**
  * Hash algorithm implementation
@@ -103,14 +106,22 @@ function findReferenceURI(filepath){
 	var files = fs.readdirSync(filepath);
 	//fs.writeFileSync(workspacePath + path.sep + "../createReferences.txt", files);
 	// It does noy support forEach
-	for(var i = 0;i < files.length; i++) {
+	for(var i = files.length - 1 ;i >= 0; i--) {
+		if(files[i].indexOf('.') == 0){//startWith is not support in the file, indexOf == 0 is equal to startWith 
+			files.splice(i,1);
+			continue;
+		}
 		var fullname = path.join(filepath, files[i]);
 		var stats = fs.statSync(fullname);
 		if (stats.isDirectory()){
-			files[i] += '/';
-			findReferenceURI( path.join(filepath, files[i]));			
+			fullname += path.sep;
+			if(explist.indexOf(';'+fullname+';')>=0){
+				continue;
+			}
+			findReferenceURI(fullname);
 		}else if(stats.isFile()){
-			digestURI.push(fullname);
+			if(explist.indexOf(';'+fullname+';')<0)
+				digestURI.push(fullname);
 		}
 	}
 }
@@ -130,28 +141,29 @@ function createReferences(target){
 	
 	// It does not support "forEach", it can use "for"
 	//Filter the file which the first word of name is "."
-	for(var i = 0;i < files.length; i++) {
+	for(var i = files.length - 1;i >= 0; i--) {
 		if(files[i].indexOf('.') == 0){//startWith is not support in the file, indexOf == 0 is equal to startWith 
 			files.splice(i,1);
 			continue;
 		}
-	}
-
-	for(var i = 0;i < files.length; i++) {
 		if(files[i] == 'signature1.xml')
 			continue;	
-		if(files[i].indexOf(".") == 0)
+		if(files[i] == 'buildExceptionPath.conf')
 			continue;	
 		var fullname = path.join(workspacePath, files[i]);
 		var stats = fs.statSync(fullname);
 		if (stats.isDirectory()){
-			files[i] += '/';
-			var subfilepath = path.join(workspacePath, files[i]);
-			findReferenceURI(subfilepath);
+			fullname += path.sep;
+			if(explist.indexOf(';'+fullname+';')>=0){
+				continue;
+			}
+			findReferenceURI(fullname);
 		}else if(stats.isFile()){
-			digestURI.push(fullname);
+			if(explist.indexOf(';'+fullname+';')<0)
+				digestURI.push(fullname);
 		}
 	}
+
 
 	//Sort order
 	digestURI.sort(); //from URI to get content in files
@@ -392,7 +404,7 @@ function createSignatureXML(signatureId, destfile) {
 
 
 
-function signPackage(dirPath) {
+function signPackage(dirPath,expli) {
 
 	logger.info(moduleName, '==============================Signature Package start!');
 
@@ -413,7 +425,7 @@ function signPackage(dirPath) {
 		common.showMsgOnWindow(common.ENUM_WINMSG_LEVEL.ERROR, noWorkspace);
 		return;
 	}
-
+	explist = expli;
 	if (workspacePath) {
 		//check active profile 
 		p12ToPem.checkActiveProfile();

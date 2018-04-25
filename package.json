@@ -29,7 +29,8 @@
 		"onCommand:extension.debugEmulatorApp",
 		"onCommand:extension.openTerminal",
 		"onCommand:extension.installSimulator",
-		"onCommand:extension.runCertificateManager"
+		"onCommand:extension.runCertificateManager",
+		"onCommand:extension.runsetExceptionPath"
 	],
 	"main": "./extension",
 	"contributes": {
@@ -73,6 +74,10 @@
 			{
 				"command": "extension.runCertificateManager",
 				"title": "Tizen TV: Certificate Manager"
+			},
+			{
+				"command": "extension.runsetExceptionPath",
+				"title": "Tizen TV: Set Exception Path"
 			}
 		],
 		"debuggers": [

@@ -15,6 +15,7 @@ var common = require('./common');
 var launchEmulatorApp = require('./launchEmulatorApp');            // Tizen TV: Run on TV Emulator
 var launchEmulatorManager = require('./launchEmulatorManager');    // Tizen TV: Run TV Emulator Manager
 var certificateManager = require('./certificateManager');
+var setExceptionPath = require('./setExceptionPath');
 
 var installSimulator = require('./installSimulator');     // Tizen TV: Run TV Emulator Manager
 var openTerminal = require('./openTerminal');             // Tizen TV: SDB Command Prompt
@@ -136,6 +137,14 @@ function activate(context) {
         openTerminal.hideTerminal();
         logger.showOutputPanel();
         certificateManager.handleCommand();
+
+    });
+
+    // Tizen TV: Set Exception Path
+    var disposable = vscode.commands.registerCommand('extension.runsetExceptionPath', function () {
+        openTerminal.hideTerminal();
+        logger.showOutputPanel();
+        setExceptionPath.handleCommand();
 
     });
 
