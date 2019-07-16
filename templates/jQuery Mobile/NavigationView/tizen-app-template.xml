@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tizen-app-template  xmlns="http://www.tizen.org/tizen-app-template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tizen.org/tizen-app-template tizen-app-template.xsd "
+sdk-version="1.0 beta" template-version="0.2" 
+icon64="navigationview_64.png" icon32="navigationview_32.png">
+    <template-id>Navigation</template-id>
+    <template-name>Navigation Application</template-name>
+    <widget-type>TIZEN</widget-type>
+    <build-property key="usedLibraryType" value="jQueryMobile"/>
+    <description-file-name>description.xml</description-file-name>
+  <options>
+    <supportLibraries>
+      <library name="jQuery Mobile"/>
+    </supportLibraries>
+    <optionGroup name="Theme" key="Theme" optionType="SINGLE_SELECTION" image="icons/theme.png">
+        <optionElement defaultElement="true" name="Default" value="" image="ThemeDefault.png"/>
+        <optionElement name="A - Black" value="a" image="ThemeA.png"/>
+        <optionElement name="B - Blue" value="b" image="ThemeB.png"/>
+        <optionElement name="C - Gray" value="c" image="ThemeC.png"/>
+        <optionElement name="D - LightGray" value="d" image="ThemeD.png"/>
+        <optionElement name="E - Yellow" value="e" image="ThemeE.png"/>
+    </optionGroup>
+  </options>
+</tizen-app-template>

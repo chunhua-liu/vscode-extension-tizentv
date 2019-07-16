@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../description.xsl"?>
+<Overview version="1.0">
+  <SampleName>Caph3.1-Empty Template for jQuery</SampleName>
+  <SampleVersion>3.1</SampleVersion>
+   <PlatformList>
+     <Profile>
+        <ProfileName>tv-samsung-public</ProfileName>
+        <RequiredVersion>2.3</RequiredVersion>
+     </Profile>
+  </PlatformList>
+   <ProjectType>CAPH</ProjectType>
+  <HasOption>False</HasOption>
+  <CategoryList>
+       <Category>CAPH</Category>
+  </CategoryList>
+  <PreviewList>
+       <Preview>empty.png</Preview>
+  </PreviewList>
+  <Description>
+	An empty template of Caph 3.1 Framework.
+  </Description>
+</Overview>

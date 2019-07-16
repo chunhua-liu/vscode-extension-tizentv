@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tizen-app-template  xmlns="http://www.tizen.org/tizen-app-template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tizen.org/tizen-app-template tizen-app-template.xsd "
+sdk-version="1.2" template-version="0.3" 
+icon64="template_icon_64.png" icon32="template_icon_32.png">
+    <template-id>Caph 3.1 Empty Template for AngularJS</template-id>
+    <template-name>Caph 3.1 Empty Template for AngularJS</template-name>
+    <widget-type>CAPH</widget-type>
+    <description-file-name>description.xml</description-file-name>
+	<!--
+	<options>
+		<supportLibraries>
+			<library name="Samsung TV Web UI Framework Caph"/>
+		</supportLibraries>
+	</options>
+	-->
+</tizen-app-template>

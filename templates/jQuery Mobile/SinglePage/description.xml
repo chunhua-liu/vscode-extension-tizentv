@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../description.xsl"?>
+<Overview version="0.17.1">
+  <SampleName>jQuery-Single-Page Application</SampleName>
+  <SampleVersion>1.0</SampleVersion>
+   <PlatformList>
+     <Profile>
+        <ProfileName>tv-samsung-public</ProfileName>
+        <RequiredVersion>2.3</RequiredVersion>
+     </Profile>
+  </PlatformList>
+   <ProjectType>TIZEN</ProjectType>
+  <HasOption>True</HasOption>
+  <CategoryList>
+       <Category>Application</Category>
+  </CategoryList>
+  <PreviewList>
+       <Preview>snapshot.png</Preview>
+  </PreviewList>
+  <Description>
+    Single-Page Application based on jQuery Mobile.
+  </Description>
+</Overview>

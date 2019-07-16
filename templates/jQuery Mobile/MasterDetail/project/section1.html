@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Template</title>
+    
+    <link rel="stylesheet" href="${jQueryMobile_CSS}"/>
+    <link rel="stylesheet" href="css/jqm-docs.css"/>
+    <script type="text/javascript" src="${jQuery}"></script>
+    <script src="js/jqm-docs.js"></script>
+    <script type="text/javascript" src="${jQueryMobile_JS}"></script>
+	
+	<script type="text/javascript" src="./lib/TVKeyValue.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div data-role="page" id="two" class="type-interior" <#if Theme != "">data-theme="${Theme}"</#if>>
+    <div data-role="header" data-position="fixed" data-tap-toggle="false" <#if Theme != "">data-theme="${Theme}"</#if>>
+        <h1>Master-detail application</h1>
+        <a href="index.html" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+    </div><!-- /header -->
+
+    <div data-role="content" <#if Theme != "">data-theme="${Theme}"</#if>>
+        <div class="content-primary">
+            <h2>Section 1</h2>
+
+            <p>This is Section 1.</p>
+        </div><!--/content-primary -->
+
+        <div class="content-secondary">
+            <div data-role="collapsible" data-collapsed="true" <#if Theme != "">data-theme="${Theme}" data-content-theme="${Theme}"</#if>>
+                <h3>More in this section</h3>
+                <ul data-role="listview" <#if Theme != "">data-theme="${Theme}" data-dividertheme="${Theme}"</#if>>
+                    <li data-role="list-divider">Details</li>
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="section1.html">Section 1</a></li>
+                    <li><a href="section2.html">Section 2</a></li>
+                </ul>
+            </div>
+        </div>
+    </div><!-- /content -->
+
+    <div data-role="footer" class="footer-docs" data-position="fixed" data-tap-toggle="false" <#if Theme != "">data-theme="${Theme}"</#if>>
+        <p></p>
+    </div>
+</div><!-- /page -->
+</body>
+</html>
