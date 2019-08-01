@@ -23,7 +23,8 @@ var setExceptionPath = (function() {
 		// Notify msg
 		var selectTip = 'You can add, delete Exception Path.';
 		var options = {
-			placeHolder: selectTip
+			placeHolder: selectTip,
+			ignoreFocusOut: true
 		};
         logger.info(moduleName, selectTip);
 

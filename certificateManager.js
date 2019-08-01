@@ -40,7 +40,8 @@ var certificateManager = (function(){
 		// Notify msg
 		var selectTip = 'You can create, remove or active a profile.';
 		var options = {
-			placeHolder: selectTip
+			placeHolder: selectTip,
+			ignoreFocusOut: true
 		};
         logger.info(moduleName, selectTip);
 

@@ -64,7 +64,8 @@ var FileController = (function () {
         // Notify msg
 		var selectTip = 'Please select a template:';
 		var options = {
-			placeHolder: selectTip
+			placeHolder: selectTip,
+			ignoreFocusOut: true
 		};
         logger.info(moduleName, selectTip);
 
