@@ -337,9 +337,9 @@ exports.checkActiveProfile = checkActiveProfile;
 
 function encryptPassword(password){
     //crypto.cipher encrypt
-    var iv = new Buffer(0);
+    var iv = new Buffer(8);
     var key = 'KYANINYLhijklmnopqrstuvw';
-    var cipher = crypto.createCipheriv('des-ede3', new Buffer(key), iv);   
+    var cipher = crypto.createCipheriv('des-ede3-cbc', new Buffer(key), iv);   
     cipher.setAutoPadding(true);  //default true   
     var ciph = cipher.update(password, 'utf8', 'hex');   
     ciph += cipher.final('hex');   
@@ -358,9 +358,9 @@ function decryptPassword(password){
     var hexCode = baseBuffer.toString('hex');
 
     //crypto.decipher decrypt
-    var iv = new Buffer(0);
+    var iv = new Buffer(8);
     var key = 'KYANINYLhijklmnopqrstuvw';
-    var decipher = crypto.createDecipheriv('des-ede3', new Buffer(key), iv);   
+    var decipher = crypto.createDecipheriv('des-ede3-cbc', new Buffer(key), iv);   
     decipher.setAutoPadding(true);  
     var txt = decipher.update(hexCode, 'hex', 'utf8');   
     txt += decipher.final('utf8');   
