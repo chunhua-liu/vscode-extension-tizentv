@@ -1,2 +1,9 @@
 .vscode/**
 *.vsix
+.npmignore
+.jshintrc
+.travis.yml
+.zuul.yml
+backup
+.bin
+
