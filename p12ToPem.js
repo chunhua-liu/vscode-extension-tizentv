@@ -3,7 +3,7 @@ var path = require('path');
 var crypto = require('crypto');
 
 var forge = require('node-forge');
-var Buffer = require('buffer').Buffer;
+//var Buffer = require('buffer').Buffer;
 var parseString = require('xml2js').parseString;
 var logger = require('./logger');
 var common = require('./common');
@@ -18,11 +18,11 @@ var moduleName = 'P12ToPem';
 var certificatesPath = extensionPath + '/resource/certificate-generator/certificates/';
 
 var ACTIVE_PEM_FILE = {
-    'AUTHOR_KEY_FILE' : certificatesPath +'developer/active_cert/tizen_developer.pem',
+    'AUTHOR_KEY_FILE' : certificatesPath +'developer/active_cert/tizen_developer_private_key.pem',
     'AUTHOR_CERT_FILE' : certificatesPath + 'developer/active_cert/tizen_developer_cert.pem',
-    'DISTRIBUTOR_KEY_FILE' : certificatesPath+ 'distributor/active_cert/tizen_distributor.pem',
+    'DISTRIBUTOR_KEY_FILE' : certificatesPath+ 'distributor/active_cert/tizen_distributor_private_key.pem',
     'DISTRIBUTOR_CERT_FILE' : certificatesPath + 'distributor/active_cert/tizen_distributor_cert.pem',
-    'DISTRIBUTOR2_KEY_FILE': certificatesPath + 'distributor/active_cert/tizen_distributor2.pem',
+    'DISTRIBUTOR2_KEY_FILE': certificatesPath + 'distributor/active_cert/tizen_distributor2_private_key.pem',
     'DISTRIBUTOR2_CERT_FILE': certificatesPath + 'distributor/active_cert/tizen_distributor2_cert.pem'
 };
 exports.ACTIVE_PEM_FILE = ACTIVE_PEM_FILE;
@@ -337,15 +337,15 @@ exports.checkActiveProfile = checkActiveProfile;
 
 function encryptPassword(password){
     //crypto.cipher encrypt
-    var iv = new Buffer(0);
-    var key = 'KYANINYLhijklmnopqrstuvw';
-    var cipher = crypto.createCipheriv('des-ede3', new Buffer(key), iv);   
+    var iv = Buffer.from('2ayhs91xsa79xchf', 'utf8');
+    var key = Buffer.from('8uIwsoc7yhsOpw25', 'utf8');
+    var cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
     cipher.setAutoPadding(true);  //default true   
     var ciph = cipher.update(password, 'utf8', 'hex');   
     ciph += cipher.final('hex');   
     
     //base64 encode
-    var b1 = new Buffer(ciph,'hex');
+    var b1 = Buffer.from(ciph,'hex');
     var s1= b1.toString('base64');
     return s1;
 }
@@ -354,13 +354,18 @@ exports.encryptPassword = encryptPassword;
 function decryptPassword(password){
 
     //base64 decode
-    var baseBuffer = new Buffer(password, 'base64');
+    var baseBuffer = Buffer.from(password, 'base64');
     var hexCode = baseBuffer.toString('hex');
 
     //crypto.decipher decrypt
-    var iv = new Buffer(0);
-    var key = 'KYANINYLhijklmnopqrstuvw';
-    var decipher = crypto.createDecipheriv('des-ede3', new Buffer(key), iv);   
+    var iv = Buffer.from('2ayhs91xsa79xchf', 'utf8');
+    var key = Buffer.from('8uIwsoc7yhsOpw25', 'utf8');
+    try {
+      var decipher = crypto.createDecipheriv("aes-128-cbc", key, iv);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
     decipher.setAutoPadding(true);  
     var txt = decipher.update(hexCode, 'hex', 'utf8');   
     txt += decipher.final('utf8');   
@@ -383,4 +388,3 @@ function createDir(dirPath){
     }
 }
 exports.createDir = createDir;
-

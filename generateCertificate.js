@@ -2,7 +2,7 @@ var forge = require('node-forge');
 var fs = require('fs');
 var logger = require('./logger');
 
-var caPriKeyPath = __dirname + '/resource/certificate-generator/certificates/developer/tizen-developer-ca.pem';
+var caPriKeyPath = __dirname + '/resource/certificate-generator/certificates/developer/tizen-developer-dec.data';
 var caCertPath = __dirname + '/resource/certificate-generator/certificates/developer/tizen-developer-ca.cer';
 
 // Module name
@@ -83,8 +83,8 @@ function createCert(authorCertName, authorCertPath, authorPassword, countryInfo,
         }]);
 
 
-        //read ca Key
-        logger.info(moduleName, 'Read ca Key');
+        //read ca private Key
+        logger.info(moduleName, 'Read ca private Key');
         var caPriPem = fs.readFileSync(caPriKeyPath);
         var caPassword = 'tizencertificatefordevelopercaroqkfwk';
 

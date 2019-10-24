@@ -7,15 +7,16 @@ var logger = require('./logger');
 // Import js object for commands implement
 var buildPackage = require('./buildPackage');         // Tizen TV: Build Package
 var launchSimulator = require('./launchSimulator');   // Tizen TV: Run on TV Simulator 
-var launchTarget = require('./launchTarget');         // Tizen TV: Run on TV
+//var launchTarget = require('./launchTarget');         // Tizen TV: Run on TV
 
 var createProject = require('./createProject');       // Create Web project
 
 var common = require('./common');
-var launchEmulatorApp = require('./launchEmulatorApp');            // Tizen TV: Run on TV Emulator
+//var launchEmulatorApp = require('./launchEmulatorApp');            // Tizen TV: Run on TV Emulator
 var launchEmulatorManager = require('./launchEmulatorManager');    // Tizen TV: Run TV Emulator Manager
 var certificateManager = require('./certificateManager');
 var setExceptionPath = require('./setExceptionPath');
+const launcher = require('./appLauncher');
 
 var installSimulator = require('./installSimulator');     // Tizen TV: Run TV Emulator Manager
 var openTerminal = require('./openTerminal');             // Tizen TV: SDB Command Prompt
@@ -76,19 +77,19 @@ function activate(context) {
     // Tizen TV: Run on TV
     var disposable = vscode.commands.registerCommand('extension.runApp', function () {
         openTerminal.hideTerminal();
-	    common.setFuncMode(common.ENUM_COMMAND_MODE.COMMAND);
+	    //common.setFuncMode(common.ENUM_COMMAND_MODE.COMMAND);
         logger.showOutputPanel();
-        launchTarget.handleCommand();
-
+        //launchTarget.handleCommand();
+        launcher.launchAppOnTV(common.getWorkspacePath());
     });
 
     // Tizen TV: Run on TV Emulator
     var disposable = vscode.commands.registerCommand('extension.runEmulatorApp', function () {
         openTerminal.hideTerminal();
-		common.setFuncMode(common.ENUM_COMMAND_MODE.RUNNING_TIZEN2_4_EMULATOR);
+		//common.setFuncMode(common.ENUM_COMMAND_MODE.RUNNING_TIZEN2_4_EMULATOR);
         logger.showOutputPanel();
-        launchEmulatorApp.handleCommand();
-
+        //launchEmulatorApp.handleCommand();
+        launcher.launchAppOnEmualtor(common.getWorkspacePath());
     });
 
     // Tizen TV: Run TV Emulator Manager
@@ -117,19 +118,19 @@ function activate(context) {
 	// Tizen TV: Web Inspector On TV
     var disposable = vscode.commands.registerCommand('extension.debugApp', function () {
         openTerminal.hideTerminal();
-	    common.setFuncMode(common.ENUM_COMMAND_MODE.WEB_INSPECTOR_ON_TV);
+	    //common.setFuncMode(common.ENUM_COMMAND_MODE.WEB_INSPECTOR_ON_TV);
         logger.showOutputPanel();
-        launchTarget.handleCommand();
-
+        //launchTarget.handleCommand();
+        launcher.debugAppOnTV(common.getWorkspacePath());
     });
 	
 	// Tizen TV: Web Inspector On Emulator
     var disposable = vscode.commands.registerCommand('extension.debugEmulatorApp', function () {
         openTerminal.hideTerminal();
-	    common.setFuncMode(common.ENUM_COMMAND_MODE.WEB_INSPECTOR_ON_EMULATOR);
+	    //common.setFuncMode(common.ENUM_COMMAND_MODE.WEB_INSPECTOR_ON_EMULATOR);
         logger.showOutputPanel();
-        launchEmulatorApp.handleCommand();
-
+        //launchEmulatorApp.handleCommand();
+        launcher.debugAppOnEmualtor(common.getWorkspacePath());
     });
 
     // Tizen TV: Certificate Manager

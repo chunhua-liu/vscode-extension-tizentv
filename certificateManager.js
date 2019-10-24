@@ -40,7 +40,8 @@ var certificateManager = (function(){
 		// Notify msg
 		var selectTip = 'You can create, remove or active a profile.';
 		var options = {
-			placeHolder: selectTip
+			placeHolder: selectTip,
+			ignoreFocusOut: true
 		};
         logger.info(moduleName, selectTip);
 
@@ -50,7 +51,7 @@ var certificateManager = (function(){
 			{ label: 'Remove Profile', description: 'Remove a profile' },
 			{ label: 'Set Active Profile', description: 'Set a profile to active' },
 			{ label: 'Change Certificate Info', description: 'You can check or change the certificates of the selected certificate profile'}
-			
+
 		];
 
         // Show App templates list
@@ -114,7 +115,8 @@ var certificateManager = (function(){
 
 			var selectTip = 'You can create a new author certificate or select an existing author certificate ';
 			var options = {
-				placeHolder: selectTip
+				placeHolder: selectTip,
+				ignoreFocusOut: true
 			};
 
 			// Templates
@@ -147,7 +149,7 @@ var certificateManager = (function(){
 
 	};
 
-	var createAuthorCertificate =function(){	
+	var createAuthorCertificate =function(){
 		vscode.window.showInputBox({
 			ignoreFocusOut: true,
 			prompt: 'Please enter the author certificate file name ' ,
@@ -206,9 +208,9 @@ var certificateManager = (function(){
 							setOptionalInfo();
 
 						});
-				
+
 					}
-					
+
 				});
 
 		});
@@ -246,7 +248,7 @@ var certificateManager = (function(){
 						authorPassword = password;
 						setDistributorCertificate();
 					}
-					
+
 				});
 			}else{
 				var waringMsg = 'The author certificate path you entered is not correct';
@@ -269,7 +271,7 @@ var certificateManager = (function(){
 				logger.warning(moduleName, optionMsg);
 				common.showMsgOnWindow(common.ENUM_WINMSG_LEVEL.WARNING, optionMsg);
 				throw optionMsg;
-			}	
+			}
 		}
 
 		if(vscode.workspace.getConfiguration('tizentv')['certificateManager']['State']){
@@ -283,7 +285,7 @@ var certificateManager = (function(){
 		if(vscode.workspace.getConfiguration('tizentv')['certificateManager']['Orgnaization']){
 			organizationInfo = vscode.workspace.getConfiguration('tizentv')['certificateManager']['Orgnaization'];
 		}
-		
+
 		if(vscode.workspace.getConfiguration('tizentv')['certificateManager']['Department']){
 			DepartmentInfo = vscode.workspace.getConfiguration('tizentv')['certificateManager']['Department'];
 		}
@@ -301,7 +303,8 @@ var certificateManager = (function(){
 	var setDistributorCertificate =function(){
 		var selectTip = 'You can use the default Tizen distributor certificate or select a distributor certificate for an another app store';
 		var options = {
-			placeHolder: selectTip
+			placeHolder: selectTip,
+			ignoreFocusOut: true
 		};
 		var distributorChoices = [
 			{ label: 'Use the default Tizen distributor certificate' },
@@ -321,7 +324,7 @@ var certificateManager = (function(){
 			}else{
 				finishOrCancel();
 			}
-			
+
 		});
 	};
 
@@ -357,7 +360,7 @@ var certificateManager = (function(){
 						distributorSignerPassword = password;
 						finishOrCancel();
 					}
-					
+
 				});
 			}else{
 
@@ -374,7 +377,8 @@ var certificateManager = (function(){
 	var finishOrCancel =function(){
 		var selectTip = 'You can Finish or Cancel "Create Profile" process';
 		var options = {
-			placeHolder: selectTip
+			placeHolder: selectTip,
+			ignoreFocusOut: true
 		};
 		var finishChoices = [
 			{ label: 'Finish' },
@@ -400,7 +404,7 @@ var certificateManager = (function(){
 					common.showMsgOnWindow(common.ENUM_WINMSG_LEVEL.INFO, 'This certificate profile will be set as active');
 					registerProfile();
 				//}
-				
+
 			}
 		});
 
@@ -409,7 +413,8 @@ var certificateManager = (function(){
 	var setActiveOrNot =function(){
 		var selectTip = 'Set the new profile as active?';
 		var options = {
-			placeHolder: selectTip
+			placeHolder: selectTip,
+			ignoreFocusOut: true
 		};
 		var activeChoices = [
 			{ label: 'Yes' },
@@ -468,7 +473,7 @@ var certificateManager = (function(){
 			var strPrefix = '';
 			var strVersion = '';
 			var strEndProfiles = '';
-			if(activeFlag){ 
+			if(activeFlag){
 				var strBeginActive = originContent.indexOf('<profiles active=');
 				strPrefix = originContent.substring(0,strBeginActive+17) + '\"' + profileName + '\"';
 				strVersion= originContent.indexOf('version=\"3.1\"');
@@ -481,7 +486,7 @@ var certificateManager = (function(){
 				var strContent = originContent.substring(0,strEndProfiles );
 				newContent = strContent +profileItem+ '</profiles>';
 			}
-			
+
 			fs.writeFileSync(profilePath, newContent);
 		}else{
 			profileItem = profilePrefix + profileItem + '</profiles>';
@@ -489,7 +494,7 @@ var certificateManager = (function(){
 		}
 
 		common.showMsgOnWindow(common.ENUM_WINMSG_LEVEL.INFO, 'Creating new profile successful');
-		
+
 	};
 
 	var getProfileItems =function(){
@@ -497,15 +502,15 @@ var certificateManager = (function(){
 		var nameArray = new Array();
 		if(fs.existsSync(profilePath)){
 			var data = fs.readFileSync(profilePath,'utf-8');
-			//parse profiles.xml file to get author and distributor p12 certificate file 
+			//parse profiles.xml file to get author and distributor p12 certificate file
 			parseString(data,{ explicitArray : false}, function(err,result){
 				var jsonData = JSON.stringify(result);
 				var jsonArray = JSON.parse(jsonData);
 
-				var profiles = jsonArray.profiles.profile;   
-				var name = '';  
-				if(profiles && (!profiles.length)){ //For only one profile case 
-					itemNum = 1; 
+				var profiles = jsonArray.profiles.profile;
+				var name = '';
+				if(profiles && (!profiles.length)){ //For only one profile case
+					itemNum = 1;
 					name = profiles.$.name;
 					nameArray.push(name);
 				}else if(profiles && profiles.length){ //For multiple profile case
@@ -516,9 +521,9 @@ var certificateManager = (function(){
 					}
 				}
 
-			});     
+			});
 		}
-		
+
 		return {itemNum, nameArray};
 	};
 
@@ -528,14 +533,14 @@ var certificateManager = (function(){
 		if(fs.existsSync(profilePath)){
 			logger.info(moduleName, 'Profile file path:'+profilePath);
 			var data = fs.readFileSync(profilePath,'utf-8');
-			//parse profiles.xml file to get author and distributor p12 certificate file 
+			//parse profiles.xml file to get author and distributor p12 certificate file
 			parseString(data,{ explicitArray : false}, function(err,result){
 				var jsonData = JSON.stringify(result);
-				var jsonArray = JSON.parse(jsonData);	
+				var jsonArray = JSON.parse(jsonData);
 				if(jsonArray.profiles.$.active){
 					activeName = jsonArray.profiles.$.active ;
 				}
-			});     
+			});
 		}
 		return activeName;
 	};
@@ -568,7 +573,8 @@ var certificateManager = (function(){
 		if(profileNames && profileNames.length>0){
 			var selectTip = 'You can select a profile to remove from the profile list ';
 			var options = {
-				placeHolder: selectTip
+				placeHolder: selectTip,
+				ignoreFocusOut: true
 			};
 			var activeProfileName = getActiveProfileName();
 			var removeChoices= new Array();
@@ -578,7 +584,7 @@ var certificateManager = (function(){
 				}else{
 					removeChoices.push({label: profileNames[i]});
 				}
-				
+
 			}
 			vscode.window.showQuickPick(removeChoices, options).then(function (choice) {
 				if (!choice) {
@@ -590,7 +596,8 @@ var certificateManager = (function(){
 				var removeName = choice.label;
 				var confirmTip = 'Are you sure you want to remove the '+ choice.label+' certificate profile?';
 				options = {
-					placeHolder: confirmTip
+					placeHolder: confirmTip,
+					ignoreFocusOut: true
 				};
 				var confirmchoices = [
 					{ label: 'Yes' },
@@ -626,19 +633,20 @@ var certificateManager = (function(){
 		if(profileNames && profileNames.length > 0){
 			var selectTip = 'You can set active profile from the profile list ';
 			var options = {
-				placeHolder: selectTip
+				placeHolder: selectTip,
+				ignoreFocusOut: true
 			};
 			var activeProfileName = getActiveProfileName();
-			var activeChoices= new Array();		
+			var activeChoices= new Array();
 			for(var i = 0 ; i<profileNames.length; i++){
 				if(activeProfileName == profileNames[i]){
 					activeChoices.push({label: profileNames[i]+' (active)'});
 				}else{
 					activeChoices.push({label: profileNames[i]});
 				}
-				
+
 			}
-	
+
 			vscode.window.showQuickPick(activeChoices, options).then(function (choice) {
 				if (!choice) {
 					var waringMsg = 'Cancelled the "Set Active Profile" without selecting a profile!';
@@ -676,7 +684,7 @@ var certificateManager = (function(){
 			profileContent = profileContent.toString();
 			var newContent = '';
 			var isActiveFlag = false;
-			if(name.indexOf('(active)') > 0){ // Remove active item ,set the first item to active item	
+			if(name.indexOf('(active)') > 0){ // Remove active item ,set the first item to active item
 				name = name.substring(0, name.indexOf('(active)') - 1);
 				isActiveFlag = true;
 			}
@@ -694,7 +702,7 @@ var certificateManager = (function(){
 			var nextName = getNextProfileItem(name);
 			var strRemoveBegin = profileContent.indexOf('<profile name=\"'+name+'\">');
 			var strNextItemBegin = '';
-			if(nextName !=''){ // Next profile Item exist		
+			if(nextName !=''){ // Next profile Item exist
 				strNextItemBegin = profileContent.indexOf('<profile name=\"'+nextName+'\">');
 			}else{ //The remove item is the last Item
 				strNextItemBegin = profileContent.indexOf('</profiles>');
@@ -712,7 +720,7 @@ var certificateManager = (function(){
 				if(updatedProfileNames && updatedProfileNames.length>0 ){
 					setActiveProfileItem(updatedProfileNames[0]);
 				}
-			}	
+			}
 
 		}else{
 			var waringMsg = 'The ' + profilePath + ' is not exist' ;
@@ -722,7 +730,7 @@ var certificateManager = (function(){
 	};
 
 	var setActiveProfileItem =function(name){
-		if(fs.existsSync(profilePath)){	
+		if(fs.existsSync(profilePath)){
 			var profileContent = fs.readFileSync(profilePath);
 			profileContent = profileContent.toString();
 			var strBeginActive = profileContent.indexOf('<profiles active=');
@@ -730,7 +738,7 @@ var certificateManager = (function(){
 			strVersion= profileContent.indexOf('version=\"3.1\"');
 			var strContent = profileContent.substring(strVersion-1 , profileContent.length );
 			var newContent = strPrefix + strContent;
-			fs.writeFileSync(profilePath, newContent);	
+			fs.writeFileSync(profilePath, newContent);
 		}else{
 			var waringMsg = 'The ' + profilePath + ' is not exist' ;
 			logger.warning(moduleName, waringMsg);
@@ -744,19 +752,20 @@ var certificateManager = (function(){
 		if(profileNames && profileNames.length > 0){
 			var selectTip = 'You can check or change the certificates info of the selected certificate profile ';
 			var options = {
-				placeHolder: selectTip
+				placeHolder: selectTip,
+				ignoreFocusOut: true
 			};
 			var activeProfileName = getActiveProfileName();
-			var selectChoices= new Array();		
+			var selectChoices= new Array();
 			for(var i = 0 ; i<profileNames.length; i++){
 				if(activeProfileName == profileNames[i]){
 					selectChoices.push({label: profileNames[i]+' (active)'});
 				}else{
 					selectChoices.push({label: profileNames[i]});
 				}
-				
+
 			}
-	
+
 			vscode.window.showQuickPick(selectChoices, options).then(function (choice) {
 				if (!choice) {
 					var waringMsg = 'Cancelled the "Change Certificate Info" without selecting a certificate profile!';
@@ -765,7 +774,7 @@ var certificateManager = (function(){
 					throw waringMsg;
 				}
 				var name = choice.label;
-				if(name.indexOf('(active)') > 0){ // Remove active item ,set the first item to active item	
+				if(name.indexOf('(active)') > 0){ // Remove active item ,set the first item to active item
 					name = name.substring(0, name.indexOf('(active)') - 1);
 				}
 
@@ -795,7 +804,8 @@ var certificateManager = (function(){
 
 				var certificateTip = 'You can check Author Certificate or Distributor Certificate or Add Distributor';
 				options = {
-					placeHolder: certificateTip
+					placeHolder: certificateTip,
+					ignoreFocusOut: true
 				};
 
 				var checkchoices = [
@@ -824,7 +834,7 @@ var certificateManager = (function(){
 					}
 
 				});
-				
+
 			});
 		}else{
 			var waringMsg = 'There is no avaliable profile ,you can create profile firstly ';
@@ -838,7 +848,8 @@ var certificateManager = (function(){
 	var checkOrChange = function(type, number , certPath,password, profilename){
 		var certificateTip = 'You can check the certificate Information or change Certificate ';
 		options = {
-			placeHolder: certificateTip
+			placeHolder: certificateTip,
+			ignoreFocusOut: true
 		};
 
 		var choices = [
@@ -850,9 +861,9 @@ var certificateManager = (function(){
 				choices.push({label: 'Remove Certificate' });
 			}else{
 				choices.push({label: 'Add Distributor Certificate'});
-			}	
+			}
 		}
-		
+
 		vscode.window.showQuickPick(choices, options).then(function (choice) {
 			if (!choice) {
 				waringMsg = 'Cancelled the "Change Certificate Info" without any operation';
@@ -871,7 +882,7 @@ var certificateManager = (function(){
 		});
 
 	};
-	
+
 	var changeCertificate = function(label, type, profilename){
 		var promptMsg1 = 'Please enter the Author certificate file location you want to change ';
 		var dirNotDef = 'Cancelled "change certificate" without inputting the Author certificate file location';
@@ -887,7 +898,7 @@ var certificateManager = (function(){
 				dirNotDef = 'Cancelled "Add Distributor Certificate" without inputting the Distributor certificate file location';
 				passNotDef = 'Cancelled "Add Distributor Certificate" without inputting the added distributor certificate password!';
 			}
-			
+
 		}
 
 		vscode.window.showInputBox({
@@ -915,9 +926,9 @@ var certificateManager = (function(){
 						common.showMsgOnWindow(common.ENUM_WINMSG_LEVEL.WARNING, passNotDef);
 						throw passNotDef;
 					}else{
-						modifyProfileItem(label, type, profilename, certpath, password );	
+						modifyProfileItem(label, type, profilename, certpath, password );
 					}
-					
+
 				});
 			}else{
 				var waringMsg = 'The certificate path you entered is not correct';
@@ -934,14 +945,15 @@ var certificateManager = (function(){
 	var removeDistributorCert = function( type, profilename, certPath){
 		var certificateTip = 'Are you sure you want to remove the '+path.basename(certPath) + ' certificate';
 		options = {
-			placeHolder: certificateTip
+			placeHolder: certificateTip,
+			ignoreFocusOut: true
 		};
 
 		var choices = [
 			{ label: 'Yes'},
 			{ label: 'No'}
 		];
-		
+
 		vscode.window.showQuickPick(choices, options).then(function (choice) {
 			if (!choice) {
 				var waringMsg = 'Cancelled the "Remove Certificate" without select Yes or No';
@@ -970,7 +982,7 @@ var certificateManager = (function(){
 			var nextName = getNextProfileItem(profilename);
 			var strRemoveBegin = profileContent.indexOf('<profile name=\"'+profilename+'\">');
 			var strNextItemBegin = '';
-			if(nextName !=''){ // Next profile Item exist		
+			if(nextName !=''){ // Next profile Item exist
 				strNextItemBegin = profileContent.indexOf('<profile name=\"'+nextName+'\">');
 			}else{ //The item is the last Item
 				strNextItemBegin = profileContent.indexOf('</profiles>');
@@ -979,21 +991,21 @@ var certificateManager = (function(){
 			var profileItemContent = profileContent.substring(strRemoveBegin, strNextItemBegin);
 
 			var modifiedItemContent = '';
-			
+
 			if(type == 'distributor1'){
 				var firstProfileItem = profileItemContent.indexOf('<profileitem ca=');
 
 				var profileItemCAStart = profileItemContent.indexOf('<profileitem ca=', firstProfileItem + 10);
 				var profileItemEnd = profileItemContent.indexOf('<profileitem ca=', profileItemCAStart + 10);
 
-				modifiedItemContent = profileItemContent.substring(0, profileItemCAStart-1) + profileItemContent.substring(profileItemEnd-1, profileItemEnd+32) + '1' + profileItemContent.substring(profileItemEnd+33, profileItemContent.indexOf('</profile>')) + 
+				modifiedItemContent = profileItemContent.substring(0, profileItemCAStart-1) + profileItemContent.substring(profileItemEnd-1, profileItemEnd+32) + '1' + profileItemContent.substring(profileItemEnd+33, profileItemContent.indexOf('</profile>')) +
 				'<profileitem ca=\"\" distributor=\"2\" key=\"\" password=\"xmEcrXPl1ss=\" rootca=\"\"/>\n' + '</profile>\n';
 
 			}else if(type == 'distributor2'){
 				var keyStartStr = profileItemContent.indexOf('distributor=\"2\"');
 				var passStartStr = profileItemContent.lastIndexOf('password=');
-				var caStartStr = profileItemContent.lastIndexOf('rootca=');	
-	
+				var caStartStr = profileItemContent.lastIndexOf('rootca=');
+
 				modifiedItemContent = profileItemContent.substring(0, keyStartStr+21) + '' + profileItemContent.substring(passStartStr - 2, passStartStr +10) + 'xmEcrXPl1ss=' + profileItemContent.substring(caStartStr-2 ,profileItemContent.length);
 			}
 
@@ -1022,7 +1034,7 @@ var certificateManager = (function(){
 			var nextName = getNextProfileItem(profilename);
 			var strRemoveBegin = profileContent.indexOf('<profile name=\"'+profilename+'\">');
 			var strNextItemBegin = '';
-			if(nextName !=''){ // Next profile Item exist		
+			if(nextName !=''){ // Next profile Item exist
 				strNextItemBegin = profileContent.indexOf('<profile name=\"'+nextName+'\">');
 			}else{ //The remove item is the last Item
 				strNextItemBegin = profileContent.indexOf('</profiles>');
@@ -1038,23 +1050,23 @@ var certificateManager = (function(){
 				if(type == 'author'){
 					keyStartStr = profileItemContent.indexOf('distributor=\"0\"');
 					passStartStr = profileItemContent.indexOf('password=');
-					caStartStr = profileItemContent.indexOf('rootca=');	
+					caStartStr = profileItemContent.indexOf('rootca=');
 				}else if(type == 'distributor1'){
 					keyStartStr = profileItemContent.indexOf('distributor=\"1\"');
 					passStartStr = profileItemContent.indexOf('password=' ,keyStartStr);
-					caStartStr = profileItemContent.indexOf('rootca=', passStartStr);	
+					caStartStr = profileItemContent.indexOf('rootca=', passStartStr);
 
 				}else if(type == 'distributor2'){
 					keyStartStr = profileItemContent.indexOf('distributor=\"2\"');
 					passStartStr = profileItemContent.lastIndexOf('password=');
-					caStartStr = profileItemContent.lastIndexOf('rootca=');	
+					caStartStr = profileItemContent.lastIndexOf('rootca=');
 				}
 
 			}else if( label == 'Add Distributor Certificate'){
 				succMsg = 'Add Distributor Certificate successful';
 				keyStartStr = profileItemContent.indexOf('distributor=\"2\"');
 				passStartStr = profileItemContent.lastIndexOf('password=');
-				caStartStr = profileItemContent.lastIndexOf('rootca=');	
+				caStartStr = profileItemContent.lastIndexOf('rootca=');
 			}
 
 			var subString1 = profileItemContent.substring(0, keyStartStr+21);
@@ -1062,10 +1074,10 @@ var certificateManager = (function(){
 			var subString3 = profileItemContent.substring(caStartStr-2 ,profileItemContent.length);
 
 			var modifiedItemContent = subString1 + keyPath + subString2 + encrytPass + subString3;
-			
-	
+
+
 			newContent = profileContent.substring(0,strRemoveBegin) + modifiedItemContent + profileContent.substring(strNextItemBegin,profileContent.length);
-		
+
 			fs.writeFileSync(profilePath, newContent);
 			common.showMsgOnWindow(common.ENUM_WINMSG_LEVEL.INFO, succMsg);
 
@@ -1079,7 +1091,8 @@ var certificateManager = (function(){
 	var detailCertificateInfo = function(certPath,password){
 		var certificateTip = 'The certificate Info is below ';
 		options = {
-			placeHolder: certificateTip
+			placeHolder: certificateTip,
+			ignoreFocusOut: true
 		};
 
 		var expirationDate = '';
@@ -1097,7 +1110,7 @@ var certificateManager = (function(){
 
 		];
 		vscode.window.showQuickPick(choices, options);
-			
+
 	};
 
 	var searchProfileItem = function(selectedname){
@@ -1114,16 +1127,16 @@ var certificateManager = (function(){
 			logger.info(moduleName, 'Profile file path:'+profilePath);
 			var data = fs.readFileSync(profilePath,'utf-8');
 
-			//parse profiles.xml file to get author and distributor p12 certificate file 
+			//parse profiles.xml file to get author and distributor p12 certificate file
 			parseString(data,{ explicitArray : false}, function(err,result){
 				var jsonData = JSON.stringify(result);
 				var jsonArray = JSON.parse(jsonData);
 
 				var profiles = jsonArray.profiles.profile;
-				var profileItems ;           
-				if(profiles && (!profiles.length)){ //For only one profile case 
+				var profileItems ;
+				if(profiles && (!profiles.length)){ //For only one profile case
 					profileItems = profiles.profileitem;
-					
+
 				}else if(profiles && profiles.length){ //For multiple profile case
 
 					for(var i = 0; i<profiles.length;i++){
@@ -1137,7 +1150,7 @@ var certificateManager = (function(){
 				}else{
 					return false;
 				}
-				
+
 				if(typeof(profileItems) != 'undefined' && profileItems.length>2){
 
 					authorFile = profileItems[0].$.key;
@@ -1145,15 +1158,15 @@ var certificateManager = (function(){
 					authorPassword = profileItems[0].$.password;
 					distributorPassword1 = profileItems[1].$.password;
 					distributorFile2 = profileItems[2].$.key;
-					distributorPassword2 = profileItems[2].$.password;	
+					distributorPassword2 = profileItems[2].$.password;
 					//return {authorFile, authorPassword, distributorFile1, distributorPassword1, distributorFile2, distributorPassword2};
 					//return 'abcd';
-				
+
 				}else{
 					return false;
 				}
 
-			});     
+			});
 		}else{
 			return false;
 		}
@@ -1182,7 +1195,7 @@ var certificateManager = (function(){
             logger.info(moduleName, '==============================Certificate Manager start!');
 			distributorSigner = __dirname + '/resource/certificate-generator/certificates/distributor/tizen-distributor-signer.p12';
 			distributorSignerPassword = 'tizenpkcs12passfordsigner';
-			
+
 			profileName = '';
 			authorCertPath = '';
 			authorPassword = '';
@@ -1195,7 +1208,7 @@ var certificateManager = (function(){
 			DepartmentInfo = '';
 			EmailInfo = '';
 
-			authorFlag = 'create'; 
+			authorFlag = 'create';
 			activeFlag = false ;
 
 			showAllFeatures();
@@ -1203,5 +1216,3 @@ var certificateManager = (function(){
 	};
 })();
 module.exports = certificateManager;
-
-

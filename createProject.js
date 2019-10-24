@@ -48,7 +48,7 @@ function handleCommand() {
 exports.handleCommand = handleCommand;
 
 // Define FileController propotype
-// Execute App generation by functions flow 
+// Execute App generation by functions flow
 var FileController = (function () {
 
     // Constructor
@@ -64,7 +64,8 @@ var FileController = (function () {
         // Notify msg
 		var selectTip = 'Please select a template:';
 		var options = {
-			placeHolder: selectTip
+			placeHolder: selectTip,
+			ignoreFocusOut: true
 		};
         logger.info(moduleName, selectTip);
 
@@ -223,7 +224,7 @@ var FileController = (function () {
 
 		// In inputed directory case
 		} else {
-            
+
 			// Format the directory URL
 			var pathArray = appDir.split(path.sep);
 			var i = 0;
@@ -251,10 +252,10 @@ var FileController = (function () {
 				}
 				deferred.resolve(appDir);
 				logger.info(moduleName, 'The App will be put in defined path: ' + appDir);
-	
+
             // Invalid OS path case
 			} else {
-				
+
 				var warningMsg = 'Inputed directory is invalid!';
 				common.showMsgOnWindow(common.ENUM_WINMSG_LEVEL.WARNING, warningMsg);
 				logger.warning(moduleName, warningMsg);
@@ -273,7 +274,7 @@ var FileController = (function () {
 
         // Copy template
 		copyDir(selectedTmpPath, destPath, function (err) {
-			
+
 			// Copy failed
 			if (err) {
 
@@ -312,16 +313,8 @@ exports.FileController = FileController;
 // Open the generated App
 function updateWorkspace (destPath) {
 
-	logger.debug(moduleName, 'Open the generated App into workspace');
-
 	// Format the uri
-	var uri = vscode.Uri.parse(destPath);
-	// In windows, the disk path D: etc. cannot be parsed, format it manually
-	if (process.platform === 'win32')
-	{
-		var pathArray = destPath.split(path.sep);
-		uri._path = pathArray[0] + uri._path;
-	}
+	var uri = vscode.Uri.file(destPath);
 	vscode.commands.executeCommand('vscode.openFolder', uri);
 }
 
@@ -496,7 +489,7 @@ function copyDir(from, to, cb) {
 			}
 		},
 		function (files, callback) {
-			// prevent reaching to max file open limit		    
+			// prevent reaching to max file open limit
 			async.mapLimit(files, 10, function (f, cb) {
 				copyFile(f.file, f.dir, cb);
 			}, callback);

@@ -23,7 +23,8 @@ var setExceptionPath = (function() {
 		// Notify msg
 		var selectTip = 'You can add, delete Exception Path.';
 		var options = {
-			placeHolder: selectTip
+			placeHolder: selectTip,
+			ignoreFocusOut: true
 		};
         logger.info(moduleName, selectTip);
 
@@ -171,7 +172,8 @@ var setExceptionPath = (function() {
 		if(exceptionPaths && exceptionPaths.length>0){
 			var selectTip = 'You can select a source';
 			var options = {
-				placeHolder: selectTip
+				placeHolder: selectTip,
+				ignoreFocusOut: true
 			};
 			var Choices= new Array();
 			for(var i = 0 ; i<exceptionPaths.length; i++){
@@ -220,7 +222,8 @@ var setExceptionPath = (function() {
 	var deleteById =function(id){
 		var confirmTip = 'Are you sure you want to delete the '+ exceptionPaths[id]+' ?';
 		options = {
-			placeHolder: confirmTip
+			placeHolder: confirmTip,
+			ignoreFocusOut: true
 		};
 		var confirmchoices = [
 			{ label: 'Yes' },

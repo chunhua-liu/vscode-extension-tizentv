@@ -1,10 +1,9 @@
-
 {
 	"name": "tizentv",
 	"displayName": "tizentv",
 	"description": "'tizentv' is a lightweight dispatch of Tizen Studio, which provides extensible IDE to develop/debug tizen apps in vs code.",
 	"icon": "images/icon.png",
-	"version": "1.0.0",
+	"version": "1.0.3",
 	"publisher": "tizensdk",
 	"repository": {
 		"type": "git",
@@ -176,7 +175,6 @@
 						}
 					}	
                 ]
-
 			},
 			{
 				"type": "tizentv",
@@ -466,5 +464,10 @@
 		"xmldom": "0.1.27",
 		"node-forge":"0.6.48",
 		"xml2js": "0.4.17"
+	},
+	"__metadata": {
+		"id": "77644dbe-ab34-478b-b309-83037eae10db",
+		"publisherId": "02badf05-d1d8-4ed9-a9c5-4e656ba07870",
+		"publisherDisplayName": "tizensdk"
 	}
 }
