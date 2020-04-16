@@ -6,4 +6,5 @@
 .zuul.yml
 backup
 .bin
+./node_modules
 
