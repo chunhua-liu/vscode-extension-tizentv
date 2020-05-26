@@ -18,356 +18,67 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.createProject",
-		"onCommand:extension.buildPackage",
-		"onCommand:extension.runApp",
-		"onCommand:extension.runSimulatorApp",
-		"onCommand:extension.runEmulatorManager",
-		"onCommand:extension.runEmulatorApp",
-		"onCommand:extension.debugApp",
-		"onCommand:extension.debugEmulatorApp",
-		"onCommand:extension.openTerminal",
-		"onCommand:extension.installSimulator",
-		"onCommand:extension.runCertificateManager",
-		"onCommand:extension.runsetExceptionPath"
+		"onCommand:tizentv.createProject",
+		"onCommand:tizentv.buildPackage",
+		"onCommand:tizentv.launchApplication",
+		"onCommand:tizentv.debugApplication",
+		"onCommand:tizentv.certificateManager",
+		"onCommand:tizentv.witsStart",
+		"onCommand:tizentv.witsWatch"
 	],
 	"main": "./extension",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.createProject",
+				"command": "tizentv.createProject",
 				"title": "Tizen TV: Create Web Project"
 			},
 			{
-				"command": "extension.buildPackage",
-				"title": "Tizen TV: Build Package"
+				"command": "tizentv.buildPackage",
+				"title": "Tizen TV: Build Signed Package"
 			},
 			{
-				"command": "extension.runEmulatorManager",
-				"title": "Tizen TV: Run TV Emulator Manager"
+				"command": "tizentv.launchApplication",
+				"title": "Tizen TV: Launch Application"
 			},
 			{
-				"command": "extension.runEmulatorApp",
-				"title": "Tizen TV: Run on TV Emulator"
+				"command": "tizentv.debugApplication",
+				"title": "Tizen TV: Debug Application"
 			},
 			{
-				"command": "extension.runSimulatorApp",
-				"title": "Tizen TV: Run on TV Simulator "
+				"command": "tizentv.certificateManager",
+				"title": "Tizen TV: Run Certificate Manager"
 			},
 			{
-				"command": "extension.runApp",
-				"title": "Tizen TV: Run on TV"
+				"command": "tizentv.witsStart",
+				"title": "Tizen TV: Wits Start"
 			},
 			{
-				"command": "extension.debugApp",
-				"title": "Tizen TV: Web Inspector on TV"
-			},
-			{
-				"command": "extension.debugEmulatorApp",
-				"title": "Tizen TV: Web Inspector on Emulator"
-			},
-			{
-				"command": "extension.openTerminal",
-				"title": "Tizen TV: SDB Command Prompt"
-			},
-			{
-				"command": "extension.runCertificateManager",
-				"title": "Tizen TV: Certificate Manager"
-			},
-			{
-				"command": "extension.runsetExceptionPath",
-				"title": "Tizen TV: Set Exception Path"
-			}
-		],
-		"debuggers": [
-			{
-				"type": "simulator",
-				"label": "TV Simulator",
-				"enableBreakpointsFor": {
-					"languageIds": [
-						"javascript",
-						"typescriptreact"
-					]
-				},
-				"program": "./debugger/debugOnSimulator.js",
-				"runtime": "node",
-				"initialConfigurations": [
-					{
-						"name": "TV Simulator",
-						"type": "simulator",
-						"request": "launch",
-						"file": "${workspaceRoot}/index.html",
-						"sourceMaps": true,
-						"webRoot": "${workspaceRoot}",
-						"runtimeArgs": [
-							"--file="
-						],
-						"runtimeLocation": ""
-					}
-				],
-				"configurationAttributes": {
-					"launch": {
-						"required": [
-							"runtimeLocation"
-						],
-						"properties": {
-							"port": {
-								"type": "number",
-								"description": "Set port number to simulator used for debugging.",
-								"default": 9222
-							},
-							"file": {
-								"type": "string",
-								"description": "Set the start page of the web app, default is 'index.html'.",
-								"default": "${workspaceRoot}/index.html"
-							},
-							"webRoot": {
-								"type": "string",
-								"description": "Set the root of app's workspace.",
-								"default": "${workspaceRoot}"
-							},
-							"targetIp": {
-								"type": "string",
-								"description": "Set the TV IP to connect for debugging.",
-								"default": ""
-							},
-							"runtimeLocation": {
-								"type": [
-									"string",
-									"null"
-								],
-								"description": "Set the location of simulator-executable, eg: c:\\\\tizen-studio\\\\tools\\\\sec-tv-simulator(win) or /home/tizen-studio/sec-tv-simulator(linux/macOS).",
-								"default": null
-							},
-							"runtimeArgs": {
-								"type": "array",
-								"description": "Set addtional parameters to simulator-executable.",
-								"items": {
-									"type": "string"
-								},
-								"default": [
-									"--file="
-								]
-							},
-							"sourceMaps": {
-								"type": "boolean",
-								"description": "Use javaScript source maps or not(when source map exists).",
-								"default": true
-							}
-						}
-					}
-				},
-				"configurationSnippets": [
-					{
-						"label": "TV Simulator: Launch",
-						"description": "Debug the applicaion in workspace on TV simulator.",
-						"body": {
-							"name": "TV Simulator",
-							"type": "simulator",
-							"request": "launch",
-							"file": "^\"\\${workspaceRoot}/index.html\"",
-							"sourceMaps": true,
-							"webRoot": "^\"\\${workspaceRoot}\"",
-							"runtimeArgs": [
-								"--file="
-							],
-							"runtimeLocation": ""
-						}
-					}	
-                ]
-			},
-			{
-				"type": "tizentv",
-				"label": "Tizen 3.0/4.0(TV)",
-				"enableBreakpointsFor": {
-					"languageIds": [
-						"javascript",
-						"typescriptreact"
-					]
-				},
-				"program": "./debugger/debugOnTv.js",
-				"runtime": "node",
-				"initialConfigurations": [
-					{
-						"name": "Tizen 3.0/4.0(TV)",
-						"type": "tizentv",
-						"request": "launch",
-						"file": "${workspaceRoot}/index.html",
-						"sourceMaps": true,
-						"webRoot": "${workspaceRoot}",
-						"targetIp": "255.255.255.255"
-					}
-				],
-				"configurationAttributes": {
-					"launch": {
-						"required": [
-							"targetIp"
-						],
-						"properties": {
-							"port": {
-								"type": "number",
-								"description": "Set port number to simulator used for debugging.",
-								"default": 7011
-							},
-							"file": {
-								"type": "string",
-								"description": "Set the start page of the web app, default is 'index.html'.",
-								"default": "${workspaceRoot}/index.html"
-							},
-							"webRoot": {
-								"type": "string",
-								"description": "Set the root of app's workspace.",
-								"default": "${workspaceRoot}"
-							},
-							"targetIp": {
-								"type": "string",
-								"description": "Set the TV IP to connect for debugging.",
-								"default": null
-							},
-							"runtimeLocation": {
-								"type": [
-									"string",
-									"null"
-								],
-								"description": "Set the location of simulator-executable, eg: c:\\\\tizen-studio\\\\tools\\\\sec-tv-simulator(win) or /home/tizen-studio/sec-tv-simulator(linux/macOS).",
-								"default": null
-							},
-							"runtimeArgs": {
-								"type": "array",
-								"description": "Set addtional parameters to simulator-executable.",
-								"items": {
-									"type": "string"
-								},
-								"default": [
-									"--file="
-								]
-							},
-							"sourceMaps": {
-								"type": "boolean",
-								"description": "Use javaScript source maps or not(when source map exists).",
-								"default": true
-							}
-						}
-					}
-				},
-				"configurationSnippets": [                   
-					{
-						"label": "Tizen 3.0/4.0(TV): Launch",
-						"description": "Debug the application in workspace on Tizen 3.0/4.0(TV).",
-						"body": {
-							"name": "Tizen 3.0/4.0(TV)",
-							"type": "tizentv",
-							"request": "launch",
-							"file": "^\"\\${workspaceRoot}/index.html\"",
-							"sourceMaps": true,
-							"webRoot": "^\"\\${workspaceRoot}\"",
-							"targetIp": "255.255.255.255"
-						}
-					}		
-                ]
-			},
-			{
-				"type": "emulator",
-				"label": "Tizen 3.0/4.0(Emulator)",
-				"enableBreakpointsFor": {
-					"languageIds": [
-						"javascript",
-						"typescriptreact"
-					]
-				},
-				"program": "./debugger/debugOnEmulator.js",
-				"runtime": "node",
-				"initialConfigurations": [
-					{
-						"name": "Tizen 3.0/4.0(Emulator)",
-						"type": "emulator",
-						"request": "launch",
-						"file": "${workspaceRoot}/index.html",
-						"sourceMaps": true,
-						"webRoot": "${workspaceRoot}"
-					}
-				],
-				"configurationAttributes": {
-					"launch": {
-						"required": [
-							""
-						],
-						"properties": {
-							"port": {
-								"type": "number",
-								"description": "Set port number to simulator used for debugging.",
-								"default": 7011
-							},
-							"file": {
-								"type": "string",
-								"description": "Set the start page of the web app, default is 'index.html'.",
-								"default": "${workspaceRoot}/index.html"
-							},
-							"webRoot": {
-								"type": "string",
-								"description": "Set the root of app's workspace.",
-								"default": "${workspaceRoot}"
-							},
-							"targetIp": {
-								"type": "string",
-								"description": "Set the TV IP to connect for debugging.",
-								"default": null
-							},
-							"runtimeLocation": {
-								"type": [
-									"string",
-									"null"
-								],
-								"description": "Set the location of simulator-executable, eg: c:\\\\tizen-studio\\\\tools\\\\sec-tv-simulator(win) or /home/tizen-studio/sec-tv-simulator(linux/macOS).",
-								"default": null
-							},
-							"runtimeArgs": {
-								"type": "array",
-								"description": "Set addtional parameters to simulator-executable.",
-								"items": {
-									"type": "string"
-								},
-								"default": [
-									"--file="
-								]
-							},
-							"sourceMaps": {
-								"type": "boolean",
-								"description": "Use javaScript source maps or not(when source map exists).",
-								"default": true
-							}
-						}
-					}
-				},
-				"configurationSnippets": [
-					{
-						"label": "Tizen 3.0/4.0(Emulator): Launch",
-						"description": "Debug the application in workspace on Tizen 3.0/4.0(Emulator).",
-						"body": {
-							"name": "Tizen 3.0/4.0(Emulator)",
-							"type": "emulator",
-							"request": "launch",
-							"file": "^\"\\${workspaceRoot}/index.html\"",
-							"sourceMaps": true,
-							"webRoot": "^\"\\${workspaceRoot}\""
-						}
-					}
-                ]
+				"command": "tizentv.witsWatch",
+				"title": "Tizen TV: Wits Watch"
 			}
 		],
 		"configuration": {
 			"type": "object",
-			"title": "TypeScript configuration",
+			"title": "TizenTV SDK Configuration",
 			"properties": {
 				"tizentv.targetDeviceAddress": {
 					"type": [
 						"string",
 						"null"
 					],
-					"default": "255.255.255.255:26101",
+					"default": null,
 					"description": "Set the TV IP to connect, default remote port is 26101."
 				},
-				"tizentv.simulatorLocation": {
+				"tizentv.hostPCAddress": {
+					"type": [
+						"string",
+						"null"
+					],
+					"default": null,
+					"description": "Set the TV IP to connect, default remote port is 26101."
+				},
+				"tizentv.simulatorExecutable": {
 					"type": [
 						"string",
 						"null"
@@ -375,77 +86,13 @@
 					"default": null,
 					"description": "Set the location of simulator-executable, eg: c:\\\\tizen-studio\\\\tools\\\\sec-tv-simulator(win) or /home/tizen-studio/sec-tv-simulator(linux/macOS)."
 				},
-				"tizentv.tizenStudioLocation": {
-					"type": [
-						"string",
-						"null"
-					],
-					"default": null,
-					"description": "Set the location of Tizen Studio, eg: c:\\\\tizen-studio (win) or /home/tizen-studio(linux/macOS)."
-				},
 				"tizentv.chromeExecutable": {
 					"type": [
 						"string",
 						"null"
 					],
-					"default": "C:\\Program Files\\Chrome\\chrome.exe",
+					"default": null,
 					"description": "Set the location of chrome-executable, eg: C:\\\\Program Files\\\\Chrome\\\\chrome.exe (win) or /opt/google/chrome/google-chrome(linux/macOS)."
-				},
-				"tizentv.logLevel": {
-					"type": [
-						"string",
-						"null"
-					],
-					"default": "INFO",
-					"description": "Select log print level: INFO, WARNING, ERROR, FATAL, default is INFO."
-				},
-				"tizentv.certificateManager.Country": {
-					"type": [
-						"string",
-						"null"
-					],
-					"default": "",
-					"description": "(Optional) Country code for creating author certificate, eg: KR."
-				},
-				"tizentv.certificateManager.State": {
-					"type": [
-						"string",
-						"null"
-					],
-					"default": "",
-					"description": "(Optional) State info for creating author certificate."
-				},
-				"tizentv.certificateManager.City": {
-					"type": [
-						"string",
-						"null"
-					],
-					"default": "",
-					"description": "(Optional) City info for creating author certificate."
-				},
-				"tizentv.certificateManager.Orgnaization": {
-					"type": [
-						"string",
-						"null"
-					],
-					"default": "",
-					"description": "(Optional) Organization info for creating author certificate."
-				},
-				"tizentv.certificateManager.Department": {
-					"type": [
-						"string",
-						"null"
-					],
-					"default": "",
-					"description": "(Optional) Department info for creating author certificate."
-				},
-				"tizentv.certificateManager.Email": {
-					"type": [
-						"string",
-						"null"
-					],
-					"default": "",
-					"description": "(Optional) Email info for creating author certificate."
 				}
 			}
 		}
@@ -454,16 +101,17 @@
 		"postinstall": "node ./node_modules/vscode/bin/install"
 	},
 	"devDependencies": {
-		"vscode": "^0.11.1"
+		"vscode": "^1.0.0"
 	},
 	"dependencies": {
-		"archiver": "^1.0.1",
+		"archiver": "3.1.1",
 		"async": "^2.0.1",
+		"node-forge": "0.6.48",
 		"q": "^1.4.1",
 		"vscode-chrome-debug-core": "0.0.5",
-		"xmldom": "0.1.27",
-		"node-forge":"0.6.48",
-		"xml2js": "0.4.17"
+		"xml-crypto": "1.5.3",
+		"xml2js": "0.4.23",
+		"xmldom": "0.1.27"
 	},
 	"__metadata": {
 		"id": "77644dbe-ab34-478b-b309-83037eae10db",
