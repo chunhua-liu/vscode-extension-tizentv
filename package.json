@@ -104,11 +104,11 @@
 		"vscode": "^1.0.0"
 	},
 	"dependencies": {
+		"@tizentv/wits": "2.1.0",
 		"archiver": "3.1.1",
 		"async": "^2.0.1",
 		"node-forge": "0.6.48",
 		"q": "^1.4.1",
-		"vscode-chrome-debug-core": "0.0.5",
 		"xml-crypto": "1.5.3",
 		"xml2js": "0.4.23",
 		"xmldom": "0.1.27"
