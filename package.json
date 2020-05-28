@@ -104,7 +104,7 @@
 		"vscode": "^1.0.0"
 	},
 	"dependencies": {
-		"@tizentv/wits": "2.1.0",
+		"@tizentv/wits": "2.1.1",
 		"archiver": "3.1.1",
 		"async": "^2.0.1",
 		"node-forge": "0.6.48",
@@ -115,7 +115,7 @@
 	},
 	"__metadata": {
 		"id": "77644dbe-ab34-478b-b309-83037eae10db",
-		"publisherId": "02badf05-d1d8-4ed9-a9c5-4e656ba07870",
-		"publisherDisplayName": "tizensdk"
+		"publisherDisplayName": "tizensdk",
+		"publisherId": "02badf05-d1d8-4ed9-a9c5-4e656ba07870"
 	}
 }
