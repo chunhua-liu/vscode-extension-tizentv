@@ -38,18 +38,23 @@ function activate(context) {
         const fs = require('fs');
         let sdbTool = `${__dirname}/tools/sdb/${platform == 'linux'?'linux':'mac'}/sdb`;
         let secretTool = platform == 'linux' ? `${__dirname}/tools/certificate-encryptor/secret-tool` : null;
-        if (platform == 'linux' || platform == 'darwin') {
+        if (platform == 'linux') {
             try {
                 fs.accessSync(sdbTool, fs.constants.S_IXUSR);
             } catch(err) {
                 fs.chmodSync(sdbTool, fs.constants.S_IXUSR)
             }
-        } 
-        if (platform == 'linux') {
             try {
                 fs.accessSync(secretTool, fs.constants.S_IXUSR);
             } catch(err) {
                 fs.chmodSync(secretTool, fs.constants.S_IXUSR)
+            }
+        } 
+        if (platform == 'darwin') {
+            try {
+                fs.accessSync(sdbTool, '0777');
+            } catch(err) {
+                fs.chmodSync(sdbTool, '0777');
             }
         }
     }
